@@ -1,0 +1,71 @@
+# Allows: Ingress from nginx, Egress to history-service, flask-monitor, deployer-app, external AWS/internet
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: flask-app-netpol
+  namespace: ashapp
+spec:
+  podSelector:
+    matchLabels:
+      app: flask-app
+  policyTypes:
+  - Ingress
+  - Egress
+  
+  ingress:
+  # Allow ingress from nginx ingress controller (based on your ingress.yaml)
+  - from:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 5000
+  
+  egress:
+  # Allow egress to deployer-app (for /deployer/* forwarding in app.py)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: deployer-app
+    ports:
+    - protocol: TCP
+      port: 5000
+  
+  # Allow egress to flask-monitor (for log_to_monitor function in app.py)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: flask-monitor
+    ports:
+    - protocol: TCP
+      port: 6000
+  
+  # Allow egress to history-service (for save_to_history and get_history functions)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: history-service
+    ports:
+    - protocol: TCP
+      port: 8081
+  
+  # Allow egress to external AWS services (for Bedrock API calls)
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+    ports:
+    - protocol: TCP
+      port: 443  # HTTPS for AWS API calls
+    - protocol: TCP
+      port: 80   # HTTP if needed
+  
+  # Allow DNS resolution
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53

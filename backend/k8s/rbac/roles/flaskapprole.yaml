@@ -1,0 +1,10 @@
+# Role for flask-app: read-only access to pods and services
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: flask-role
+  namespace: ashapp
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services"]
+  verbs: ["get", "list", "watch"]
