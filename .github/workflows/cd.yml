@@ -38,14 +38,6 @@ jobs:
           echo "Services applied"
           kubectl get svc -n ashapp
 
-      - name: Apply Ingress
-        run: |
-          cd backend/k8s
-          kubectl apply -f ingress/
-          echo "Ingress applied"
-          kubectl get svc -n ingress-nginx
-          kubectl get svc -n ashapp
-
       - name: Apply Network Policies
         run: |
           cd backend/k8s
