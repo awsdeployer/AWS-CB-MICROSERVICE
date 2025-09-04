@@ -25,7 +25,7 @@ jobs:
 
       # Export Git SHA from CI workflow
       - name: Set Git SHA
-        run: echo "GIT_SHA=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_ENV
+        run: echo "GIT_SHA=$(cat backend/GIT_SHA.txt)" >> $GITHUB_ENV
 
       # Update Deployment with Git SHA image
       - name: Update Deployment Image
