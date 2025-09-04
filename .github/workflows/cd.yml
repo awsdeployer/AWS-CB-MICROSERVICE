@@ -2,7 +2,7 @@ name: CD - Kubernetes Deploy
 
 on:
   workflow_run:
-    workflows: ["CI - Docker Build & Push"]  # Replace with your exact CI workflow name
+    workflows: ["CI - Docker Build & Push"]
     types:
       - completed
 
@@ -23,9 +23,9 @@ jobs:
         with:
           version: 'v1.27.0'
 
-      # Export Git SHA from triggering commit
+      # Export Git SHA from CI workflow
       - name: Set Git SHA
-        run: echo "GIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+        run: echo "GIT_SHA=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_ENV
 
       # Update Deployment with Git SHA image
       - name: Update Deployment Image
@@ -81,11 +81,9 @@ jobs:
           PROTOCOL="http"
           TARGET_URL=""
 
-          # EC2 public IP from metadata
           PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4 || true)
           echo "Using EC2 Public IP: $PUBLIC_IP"
 
-          # Try LoadBalancer service first
           LB_INFO=$(kubectl -n "$NAMESPACE" get svc -o jsonpath='{range .items[?(@.spec.type=="LoadBalancer")]}{.status.loadBalancer.ingress[0].ip}{" "}{.status.loadBalancer.ingress[0].hostname}{" "}{.spec.ports[0].port}{"\n"}{end}' | head -n1 || true)
           if [[ -n "$LB_INFO" ]]; then
             read -r LB_IP LB_HOST LB_PORT <<<"$LB_INFO"
@@ -96,7 +94,6 @@ jobs:
             fi
           fi
 
-          # If no LoadBalancer, try NodePort
           if [[ -z "$TARGET_URL" ]]; then
             echo "No LoadBalancer found, trying NodePort..."
             NP_INFO=$(kubectl -n "$NAMESPACE" get svc -o jsonpath='{range .items[?(@.spec.type=="NodePort")]}{.spec.ports[0].nodePort}{"\n"}{end}' | head -n1 || true)
