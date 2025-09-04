@@ -1,0 +1,76 @@
+# Allows: Ingress from nginx, Egress to history-service, flask-monitor, deployer-app, external AWS/internet, and DNS
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: flask-app-netpol
+  namespace: ashapp
+spec:
+  podSelector:
+    matchLabels:
+      app: flask-app
+  policyTypes:
+  - Ingress
+  - Egress
+  
+  ingress:
+  # Allow ingress from nginx ingress controller
+  - from:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 5000
+  
+  egress:
+  # Allow egress to deployer-app
+  - to:
+    - podSelector:
+        matchLabels:
+          app: deployer-app
+    ports:
+    - protocol: TCP
+      port: 5000
+  
+  # Allow egress to flask-monitor
+  - to:
+    - podSelector:
+        matchLabels:
+          app: flask-monitor
+    ports:
+    - protocol: TCP
+      port: 6000
+  
+  # Allow egress to history-service
+  - to:
+    - podSelector:
+        matchLabels:
+          app: history-service
+    ports:
+    - protocol: TCP
+      port: 8081
+  
+  # Allow egress to external AWS services
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+  
+  # Allow DNS resolution via kube-dns
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
