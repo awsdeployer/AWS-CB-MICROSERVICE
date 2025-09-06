@@ -65,3 +65,4 @@ spec:
         hostPath:
           path: /home/ubuntu/.kube
 
+
