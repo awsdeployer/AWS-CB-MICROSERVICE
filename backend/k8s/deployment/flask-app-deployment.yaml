@@ -18,7 +18,7 @@ spec:
       serviceAccountName: flask-sa
       containers:
       - name: flask-app
-        image: ashwanth01/flask-app:latest
+        image: ashwanth01/flask-app:6528e57ab26bb330a5bd03c2c4b91b2c487928e7
         ports:
         - containerPort: 5000
         env:
