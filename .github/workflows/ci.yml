@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'backend/k8s/deployment/flask-app-deployment.yaml'
+      - 'backend/k8s/**'
 
 permissions:
   contents: write
