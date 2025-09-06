@@ -1,4 +1,4 @@
-name: CD - Kubernetes Deploy
+name: CD - AWS-CB-MICROSERVICE
 
 on:
   workflow_run:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  AWS-CB-MICROSERVICE-CD:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: self-hosted
 
