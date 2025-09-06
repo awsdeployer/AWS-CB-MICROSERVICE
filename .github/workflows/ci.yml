@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  AWS-CB-MICROSERVICE:
+  AWS-CB-MICROSERVICE-CI:
     runs-on: self-hosted
     env:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
