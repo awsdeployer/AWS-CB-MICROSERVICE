@@ -92,4 +92,4 @@ jobs:
           git diff --staged --quiet || git commit -m "Update flask-app image to ${{ env.GIT_SHA }} [skip ci]"
 
           # Push directly to the same branch (avoids rebase/merge conflicts)
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          git push --force https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
