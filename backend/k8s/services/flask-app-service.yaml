@@ -13,3 +13,4 @@ spec:
       nodePort: 32012
   type: NodePort
 
+
