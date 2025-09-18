@@ -1,12 +1,17 @@
 # Project Working Screenshots
 
+Here are some working screenshots of the project:
+
 ## Screenshots
 
-<p align="center">
-  <img src="working-ss/1.png" width="300">
-  <img src="working-ss/2.png" width="300">
-  <img src="working-ss/3.png" width="300">
-</p>
+### Screenshot 1
+![Screenshot 1](working-ss/1.png)
+
+### Screenshot 2
+![Screenshot 2](working-ss/2.png)
+
+### Screenshot 3
+![Screenshot 3](working-ss/3.png)
 
 
 
