@@ -30,5 +30,5 @@ EXPOSE 5000
 USER appuser
 
 # Run Flask app
-ENTRYPOINT ["python", "app.py"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 
