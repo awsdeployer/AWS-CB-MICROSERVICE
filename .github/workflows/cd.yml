@@ -23,21 +23,13 @@ jobs:
         with:
           version: 'v1.27.0'
 
-      # Export Git SHA from CI workflow
-      - name: Set Git SHA
-        run: echo "GIT_SHA=$(cat backend/GIT_SHA.txt)" >> $GITHUB_ENV
-
-      # Update Deployment with Git SHA image
-      - name: Update Deployment Image
+      - name: Apply Deployment
         run: |
-          cd backend/k8s/deployment
-          kubectl set image deployment/flask-app \
-            flask-app=${{ secrets.DOCKER_HUB_USERNAME }}/flask-app:${{ env.GIT_SHA }} \
-            -n ashapp
+          kubectl apply -f backend/k8s/deployment/flask-app-deployment.yaml
 
-      # Rollout restart to ensure pods pick new image
       - name: Rollout Restart
         run: |
+          kubectl rollout restart deployment/flask-app -n ashapp
           kubectl rollout status deployment/flask-app -n ashapp
 
       - name: Apply Services
