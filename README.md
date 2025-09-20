@@ -191,10 +191,3 @@ This project is a cloud-native, containerized microservice platform that enables
 - The platform is designed for educational and demonstration purposes.
 - All service and API interactions are secured and monitored.
 
----
-
-*For more details, refer to the in-repo documentation and Kubernetes manifests. No source code is exposed in this README.*
-
----
-
-If you need a rendered UML or workflow diagram, you can use the above textual diagrams with tools like [PlantUML](https://plantuml.com/) or [Mermaid](https://mermaid-js.github.io/).
