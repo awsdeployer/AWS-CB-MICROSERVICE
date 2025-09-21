@@ -18,13 +18,10 @@ jobs:
       DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       GIT_SHA: ${{ github.sha }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: '3.10'  # or whichever version you need
 
       - name: Install test dependencies
         run: pip install -r test-requirements.txt
