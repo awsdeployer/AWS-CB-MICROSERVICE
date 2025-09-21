@@ -33,6 +33,13 @@ spec:
           mountPath: /var/run/docker.sock
         - name: kubeconfig
           mountPath: /home/appuser/.kube
+        startupProbe:
+          tcpSocket:
+            port: 5000
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 10
+          failureThreshold: 30
         livenessProbe:
           tcpSocket:
             port: 5000
