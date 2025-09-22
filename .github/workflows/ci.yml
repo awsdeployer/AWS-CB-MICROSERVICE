@@ -33,16 +33,16 @@ jobs:
         run: flake8 backend || true
         continue-on-error: true
 
+      - name: Unit Tests (pytest)
+        run: pytest backend/tests || true
+        continue-on-error: true
+
       - name: SAST (CodeQL Analysis)
         uses: github/codeql-action/analyze@v2
         continue-on-error: true
 
       - name: SCA (Safety)
         run: safety check -r backend/requirements.txt || true
-        continue-on-error: true
-
-      - name: Unit Tests (pytest)
-        run: pytest backend/tests || true
         continue-on-error: true
 
       - name: DAST (OWASP ZAP Baseline Scan)
