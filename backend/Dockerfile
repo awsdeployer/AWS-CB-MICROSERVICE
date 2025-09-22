@@ -1,5 +1,6 @@
-# Base image
-FROM python:3.9.18-slim
+ARG VERSION=3.9.18-slim
+
+FROM python:${VERSION}
 
 # Set working directory
 WORKDIR /app
