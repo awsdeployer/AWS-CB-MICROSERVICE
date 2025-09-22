@@ -13,7 +13,7 @@ spec:
   - Egress
   
   ingress:
-  # Allow ingress from nginx ingress controller (based on your ingress.yaml)
+  # Allow ingress from nginx ingress controller
   - from:
     - namespaceSelector: {}
       podSelector:
