@@ -60,11 +60,10 @@ jobs:
           username: ${{ env.DOCKER_HUB_USERNAME }}
           password: ${{ env.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build & Push Flask App
+      - name: Build Flask App
         run: |
           cd backend
           docker build -t ${{ env.DOCKER_HUB_USERNAME }}/flask-app:${{ env.GIT_SHA }} .
-          docker push ${{ env.DOCKER_HUB_USERNAME }}/flask-app:${{ env.GIT_SHA }}
 
       - name: Image Scan (Trivy - Flask App)
         uses: aquasecurity/trivy-action@master
@@ -73,6 +72,10 @@ jobs:
           format: table
           exit-code: 0
         continue-on-error: true
+
+      - name: Push Flask App
+        run: |
+          docker push ${{ env.DOCKER_HUB_USERNAME }}/flask-app:${{ env.GIT_SHA }}
 
       # ======================
       # Update Deployment YAML
